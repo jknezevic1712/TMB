@@ -4,7 +4,7 @@ import { type AppType } from "next/app";
 
 import "@/styles/globals.css";
 
-import Layout from "@/components/organisms/layout/Layout";
+import Layout from "@/components/organisms/layout";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <Layout>
-      <Component {...pageProps} />
+        <Component {...pageProps} />
       </Layout>
     </SessionProvider>
   );

@@ -1,7 +1,7 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 
-import { Button } from "@/components/atoms/Button/Button";
-import Avatar from "@/components/molecules/avatar/Avatar";
+import { Button } from "@/components/atoms/Button";
+import Avatar from "@/components/molecules/avatar";
 
 export default function Auth() {
   const { data: session } = useSession();
