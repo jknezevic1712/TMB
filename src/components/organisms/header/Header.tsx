@@ -1,14 +1,17 @@
 import Link from "next/link";
 
-import Auth from "@/components/molecules/auth/Auth";
+import AuthActions from "@/components/organisms/authActions/AuthActions";
+import { Button } from "@/components/atoms/Button/1Button";
 
 export default function Header() {
   return (
     <header className="flex w-full items-center justify-between pb-4">
-      <Link href={"/"} className="text-2xl font-bold italic">
-        <span>TMB</span>
+      <Link href={"/"}>
+        <Button variant="link" className="text-2xl font-bold italic">
+          TMB
+        </Button>
       </Link>
-      <Auth />
+      <AuthActions />
     </header>
   );
 }

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --success: 147 50% 50%;
+  --success-foreground: 147 80% 70%;
+}
+
+.dark {
+  --success: 147 50% 50%;
+  --success-foreground: 147 80% 70%;
+}
