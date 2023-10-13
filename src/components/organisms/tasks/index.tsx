@@ -13,8 +13,9 @@ export default function Tasks() {
         <h1 className="text-xl font-bold">Tasks</h1>
         <AddNewDialog
           name="Create New"
-          title="Create New"
+          title="New Task"
           description="Please provide task description"
+          submitAction={addNewTask}
         />
       </div>
 

@@ -1,3 +1,6 @@
+import { useForm, SubmitHandler } from "react-hook-form";
+
+// components
 import {
   DialogWrapper,
   DialogHeader,
@@ -11,13 +14,27 @@ import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
 import Label from "@/components/atoms/Label";
 
+type FormInputs = {
+  description: string;
+};
 type AddNewDialogProps = {
   name: string;
   title: string;
   description: string;
+  submitAction: (description: string) => Promise<void>;
 };
 export default function AddNewDialog(props: AddNewDialogProps) {
-  const { name, title, description } = props;
+  const { name, title, description, submitAction } = props;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormInputs>();
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+    console.log(data);
+    await submitAction(data.description);
+  };
 
   return (
     <DialogWrapper>
@@ -29,18 +46,25 @@ export default function AddNewDialog(props: AddNewDialogProps) {
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <form
+          id="dialogForm"
+          className="grid gap-4 py-4"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
-              Description
+              Description&#42;
             </Label>
             <Input
               id="description"
-              // value=""
               className="col-span-3"
+              {...register("description", { required: true })}
             />
           </div>
-        </div>
+          {errors.description && (
+            <span className="text-red-600">This field is required</span>
+          )}
+        </form>
         <DialogFooter>
           <Button form="dialogForm" type="submit">
             Save
