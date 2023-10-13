@@ -4,8 +4,8 @@ import type {
 } from "next";
 import { getServerAuthSession } from "@/server/auth";
 import Head from "next/head";
-import Link from "next/link";
-import { useEffect } from "react";
+
+import Tasks from "@/components/organisms/tasks";
 
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
 //   const session = await getServerAuthSession({
@@ -48,8 +48,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full">
-        <h1>Task Management Board</h1>
-        <div className="p-4"></div>
+        <Tasks />
       </main>
     </>
   );
