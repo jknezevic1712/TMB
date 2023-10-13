@@ -16,7 +16,7 @@ import { env } from "@/env.mjs";
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {
-  interface Session extends DefaultSession {
+  export interface Session extends DefaultSession {
     user: DefaultSession["user"] & {
       id: string;
       // ...other properties
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
     // GithubProvider({
     //   clientId: env.GITHUB_CLIENT_ID,
