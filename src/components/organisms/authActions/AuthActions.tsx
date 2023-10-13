@@ -1,6 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 
-import { Button } from "@/components/atoms/Button/1Button";
+import { Button } from "@/components/atoms/Button/Button";
 import Avatar from "@/components/molecules/avatar/Avatar";
 
 export default function Auth() {
