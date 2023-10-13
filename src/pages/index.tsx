@@ -1,11 +1,11 @@
-import type { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from "next";
 import { getServerAuthSession } from "@/server/auth";
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect } from "react";
-
-
-
 
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
 //   const session = await getServerAuthSession({
@@ -33,9 +33,9 @@ import { useEffect } from "react";
 
 export default function Home() {
   // console.log("Home session ",session)
-// const authData = async () => {
+  // const authData = async () => {
   // await getServerAuthSession({req, res}).then((data) => console.log(data)).catch(e => console.log(e))
-// }
+  // }
   // useEffect(() => {
   //   await getServerAuthSession().then((data) => console.log(data)).catch(e => console.log(e))
   // }, [])
@@ -47,10 +47,9 @@ export default function Home() {
         <meta name="description" content="task overview application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center">
+      <main className="w-full">
         <h1>Task Management Board</h1>
-        <div className="p-4">
-        </div>
+        <div className="p-4"></div>
       </main>
     </>
   );
