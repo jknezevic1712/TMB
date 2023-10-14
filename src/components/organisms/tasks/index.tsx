@@ -2,12 +2,10 @@
 import AddNewDialog from "../addNewDialog";
 
 // hooks
-import useFirebaseDB from "@/lib/hooks/firebase";
+import useFirebaseActions from "@/lib/hooks/firebase";
 
 export default function Tasks() {
-  const { addNewTask } = useFirebaseDB();
-
-  // TODO: Fix permission issues to save the new task
+  const { addNewTask } = useFirebaseActions();
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-2">

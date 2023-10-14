@@ -1,17 +1,20 @@
+// components
 import { Button } from "@/components/atoms/Button";
 import Avatar from "@/components/molecules/avatar";
-import { auth, googleProvider } from "@/server/firebase/firebase";
-import { signInWithPopup, signOut } from "firebase/auth";
+// hooks
+import useFirebaseActions from "@/lib/hooks/firebase";
+import useStore from "@/lib/hooks/store";
 
 export default function Auth() {
-  const currentUser = auth.currentUser;
+  const currentUser = useStore((state) => state.user);
+  const { signInUser, signOutUser } = useFirebaseActions();
 
   console.log("USER ", currentUser);
 
   if (currentUser) {
     return (
       <div className="flex items-center justify-center gap-2">
-        <Button variant="destructive" onClick={() => signOut(auth)}>
+        <Button variant="destructive" onClick={() => signOutUser()}>
           Sign Out
         </Button>
 
@@ -20,10 +23,7 @@ export default function Auth() {
     );
   }
   return (
-    <Button
-      variant="success"
-      onClick={() => signInWithPopup(auth, googleProvider)}
-    >
+    <Button variant="success" onClick={() => signInUser()}>
       Sign In
     </Button>
   );
