@@ -1,12 +1,11 @@
-import { useSession } from "next-auth/react";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import db from "@/server/firebase/firebase";
+import { auth, db } from "@/server/firebase/firebase";
 
 // types
 import type { TaskForDB } from "@/lib/types/tasks";
 
 export default function useFirebaseDB() {
-  const { data: session } = useSession();
+  const currentUser = auth.currentUser;
   // const fetchTasks = async () => {
 
   // }
@@ -19,8 +18,10 @@ export default function useFirebaseDB() {
       status: "To Do",
     };
 
-    // const userRef = doc(db, 'tasks', userData.id);
-    await addDoc(collection(db, `users/${session?.user.id}/tasks`), taskData);
+    await addDoc(
+      collection(db, `users/${currentUser?.uid}/tasks`),
+      taskData,
+    ).catch((e) => console.log("Error adding new task: ", e));
   };
 
   return {

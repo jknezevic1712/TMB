@@ -1,4 +1,5 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { useEffect } from "react";
 
 // components
 import {
@@ -28,13 +29,19 @@ export default function AddNewDialog(props: AddNewDialogProps) {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
+    reset,
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     console.log(data);
     await submitAction(data.description);
   };
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({ description: "" });
+    }
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <DialogWrapper>

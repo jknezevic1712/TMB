@@ -1,19 +1,22 @@
-import { initializeApp } from "firebase/app";
+import { env } from "@/env.mjs";
+import { initializeApp, getApp, getApps } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-// import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBvWzm7mvehn_pWZNfnP4Wj9UUJX9DhDtk",
-  authDomain: "task-management-board-4ab08.firebaseapp.com",
-  projectId: "task-management-board-4ab08",
-  storageBucket: "task-management-board-4ab08.appspot.com",
-  messagingSenderId: "340064191559",
-  appId: "1:340064191559:web:46a76d7cda7bbfba235d62",
-  measurementId: "G-K98R252KEE",
+  apiKey: env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-// const analytics = getAnalytics(app);
+const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
-export default db;
+const db = getFirestore(app);
+
+export { app, auth, googleProvider, db };
