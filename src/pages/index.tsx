@@ -10,7 +10,7 @@ export default function Home() {
         <meta name="description" content="task overview application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-full">
+      <main className="w-full max-w-7xl">
         <Tasks />
       </main>
     </>

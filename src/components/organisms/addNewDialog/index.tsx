@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription,
+  closeDialog,
 } from "@/components/molecules/dialog";
 import { Button } from "@/components/atoms/Button";
 import { Input } from "@/components/atoms/Input";
@@ -32,13 +33,12 @@ export default function AddNewDialog(props: AddNewDialogProps) {
     formState: { errors, isSubmitSuccessful },
     reset,
   } = useForm<FormInputs>();
-  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormInputs> = async (data) =>
     await submitAction(data.description);
-  };
 
   useEffect(() => {
     if (isSubmitSuccessful) {
+      closeDialog();
       reset({ description: "" });
     }
   }, [isSubmitSuccessful, reset]);
