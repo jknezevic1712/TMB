@@ -1,13 +1,16 @@
-import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { addDoc, collection, query, onSnapshot } from "firebase/firestore";
+import { type Unsubscribe, signInWithPopup, signOut } from "firebase/auth";
 import { auth, db, googleProvider } from "@/server/firebase/firebase";
 
 // types
 import type { TaskForApp, TaskForDB } from "@/lib/types/tasks";
 import useStore from "../store";
+import { type MutableRefObject, useRef } from "react";
 
 export default function useFirebaseActions() {
-  const { user, setUser } = useStore();
+  const { user, setUser, setTasks } = useStore();
+  const unsubscribeFetchTasks: MutableRefObject<Unsubscribe | undefined> =
+    useRef();
 
   const signInUser = async () => {
     console.log("signInUser RENDER");
@@ -23,26 +26,35 @@ export default function useFirebaseActions() {
       .catch((e) => console.log("Error signing out, ", e));
   };
 
-  const fetchTasks = async () => {
+  const fetchTasks = () => {
     console.log("fetchTasks RENDER");
-    let tasks: TaskForApp[] = [];
 
-    const querySnapshot = await getDocs(
-      collection(db, `users/${user?.uid}/tasks`),
+    const q = query(collection(db, `users/${user?.uid}/tasks`));
+    unsubscribeFetchTasks.current = onSnapshot(
+      q,
+      (querySnapshot) => {
+        const data: Record<string, TaskForApp> = {};
+
+        querySnapshot.forEach((doc) => {
+          data[doc.id] = doc.data() as TaskForApp;
+        });
+
+        const structuredData: TaskForApp[] = Object.entries(data).map(
+          (res) => ({
+            id: res[1].id,
+            dateCreated: res[1].dateCreated,
+            description: res[1].description,
+            status: res[1].status,
+          }),
+        );
+
+        setTasks(structuredData);
+
+        return;
+      },
+      (queryError) =>
+        console.log("Error fetching the tasks, ", queryError.name),
     );
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-      tasks = [
-        ...tasks,
-        {
-          id: doc.id,
-          ...(doc.data() as TaskForDB),
-        },
-      ];
-    });
-
-    return tasks;
   };
 
   const addNewTask = async (description: string) => {
@@ -62,6 +74,7 @@ export default function useFirebaseActions() {
     signInUser,
     signOutUser,
     fetchTasks,
+    unsubscribeFetchTasks,
     addNewTask,
   };
 }

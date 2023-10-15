@@ -1,8 +1,22 @@
 import Head from "next/head";
 
 import Tasks from "@/components/templates/tasks";
+// hooks
+import { useEffect } from "react";
+import useFirebaseActions from "@/lib/hooks/firebase";
 
 export default function Home() {
+  const { fetchTasks, unsubscribeFetchTasks } = useFirebaseActions();
+
+  useEffect(() => {
+    fetchTasks();
+
+    const unsubscribe = unsubscribeFetchTasks.current;
+    return () => {
+      unsubscribe && unsubscribe();
+    };
+  }, []);
+
   return (
     <>
       <Head>
