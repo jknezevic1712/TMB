@@ -1,4 +1,7 @@
+// hooks
 import useStore from "@/lib/hooks/store";
+import useFirebaseActions from "@/lib/hooks/firebase";
+// components
 import {
   ChevronLeft,
   ChevronRight,
@@ -10,6 +13,7 @@ import TaskItem from "@/components/molecules/taskItem";
 
 export default function TasksTable() {
   const tasks = useStore((s) => s.tasks);
+  const { editTask } = useFirebaseActions();
   // const [tasks] = useState<TaskForApp[] | null>(null)
 
   // function allowDrop(e: DragEvent<HTMLDivElement>) {
@@ -48,17 +52,13 @@ export default function TasksTable() {
               <TaskItem key={task.id} data={task}>
                 <Button
                   className="h-8 w-14 bg-zinc-300 text-yellow-600"
-                  onClick={() =>
-                    console.log("Task moved to In Progress ", task.id)
-                  }
+                  onClick={() => editTask({ ...task, status: "In Progress" })}
                 >
                   <ChevronRight />
                 </Button>
                 <Button
                   className="h-8 w-14 bg-zinc-300 text-green-600"
-                  onClick={() =>
-                    console.log("Task moved to Completed ", task.id)
-                  }
+                  onClick={() => editTask({ ...task, status: "Completed" })}
                 >
                   <ChevronsRight />
                 </Button>
@@ -83,15 +83,13 @@ export default function TasksTable() {
               <TaskItem key={task.id} data={task}>
                 <Button
                   className="h-8 w-14 bg-zinc-300 text-red-600"
-                  onClick={() => console.log("Task moved to To Do ", task.id)}
+                  onClick={() => editTask({ ...task, status: "To Do" })}
                 >
                   <ChevronLeft />
                 </Button>
                 <Button
                   className="h-8 w-14 bg-zinc-300 text-green-600"
-                  onClick={() =>
-                    console.log("Task moved to Completed ", task.id)
-                  }
+                  onClick={() => editTask({ ...task, status: "Completed" })}
                 >
                   <ChevronRight />
                 </Button>
@@ -116,15 +114,13 @@ export default function TasksTable() {
               <TaskItem key={task.id} data={task}>
                 <Button
                   className="h-8 w-14 bg-zinc-300 text-red-600"
-                  onClick={() => console.log("Task moved to To Do ", task.id)}
+                  onClick={() => editTask({ ...task, status: "To Do" })}
                 >
                   <ChevronsLeft />
                 </Button>
                 <Button
                   className="h-8 w-14 bg-zinc-300 text-yellow-600"
-                  onClick={() =>
-                    console.log("Task moved to In Progress ", task.id)
-                  }
+                  onClick={() => editTask({ ...task, status: "In Progress" })}
                 >
                   <ChevronLeft />
                 </Button>

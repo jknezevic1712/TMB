@@ -1,4 +1,11 @@
-import { addDoc, collection, query, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  query,
+  onSnapshot,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import { type Unsubscribe, signInWithPopup, signOut } from "firebase/auth";
 import { auth, db, googleProvider } from "@/server/firebase/firebase";
 
@@ -41,7 +48,7 @@ export default function useFirebaseActions() {
 
         const structuredData: TaskForApp[] = Object.entries(data).map(
           (res) => ({
-            id: res[1].id,
+            id: res[0],
             dateCreated: res[1].dateCreated,
             description: res[1].description,
             status: res[1].status,
@@ -70,11 +77,22 @@ export default function useFirebaseActions() {
     );
   };
 
+  const editTask = (task: TaskForApp) => {
+    console.log("editTask RENDER");
+    const { id, ...otherTaskData } = task;
+
+    const taskRef = doc(db, `users/${user?.uid}/tasks`, id);
+    setDoc(taskRef, { ...otherTaskData }, { merge: true }).catch((e) =>
+      console.log("Error editing task, ", e),
+    );
+  };
+
   return {
     signInUser,
     signOutUser,
     fetchTasks,
     unsubscribeFetchTasks,
     addNewTask,
+    editTask,
   };
 }
