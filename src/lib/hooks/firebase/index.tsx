@@ -1,9 +1,9 @@
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, db, googleProvider } from "@/server/firebase/firebase";
 
 // types
-import type { TaskForDB } from "@/lib/types/tasks";
+import type { TaskForApp, TaskForDB } from "@/lib/types/tasks";
 import useStore from "../store";
 
 export default function useFirebaseActions() {
@@ -23,6 +23,28 @@ export default function useFirebaseActions() {
       .catch((e) => console.log("Error signing out, ", e));
   };
 
+  const fetchTasks = async () => {
+    console.log("fetchTasks RENDER");
+    let tasks: TaskForApp[] = [];
+
+    const querySnapshot = await getDocs(
+      collection(db, `users/${user?.uid}/tasks`),
+    );
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      tasks = [
+        ...tasks,
+        {
+          id: doc.id,
+          ...(doc.data() as TaskForDB),
+        },
+      ];
+    });
+
+    return tasks;
+  };
+
   const addNewTask = async (description: string) => {
     console.log("addNewTask RENDER");
     const taskData: TaskForDB = {
@@ -39,6 +61,7 @@ export default function useFirebaseActions() {
   return {
     signInUser,
     signOutUser,
+    fetchTasks,
     addNewTask,
   };
 }

@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 import { Button } from "@/components/atoms/Button";
 
-const AuthActionsNoSSR = dynamic(
+const AuthActions = dynamic(
   () => import("@/components/organisms/authActions"),
   { ssr: false },
 );
@@ -16,7 +16,7 @@ export default function Header() {
           TMB
         </Button>
       </Link>
-      <AuthActionsNoSSR />
+      <AuthActions />
     </header>
   );
 }

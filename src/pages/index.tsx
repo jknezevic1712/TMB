@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-import Tasks from "@/components/organisms/tasks";
+import Tasks from "@/components/templates/tasks";
 
 export default function Home() {
   return (

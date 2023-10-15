@@ -1,5 +1,6 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useEffect } from "react";
+import useFirebaseActions from "@/lib/hooks/firebase";
 
 // components
 import {
@@ -23,10 +24,10 @@ type AddNewDialogProps = {
   name: string;
   title: string;
   description: string;
-  submitAction: (description: string) => Promise<void>;
 };
 export default function AddNewDialog(props: AddNewDialogProps) {
-  const { name, title, description, submitAction } = props;
+  const { name, title, description } = props;
+  const { addNewTask } = useFirebaseActions();
   const {
     register,
     handleSubmit,
@@ -34,7 +35,7 @@ export default function AddNewDialog(props: AddNewDialogProps) {
     reset,
   } = useForm<FormInputs>();
   const onSubmit: SubmitHandler<FormInputs> = async (data) =>
-    await submitAction(data.description);
+    await addNewTask(data.description);
 
   useEffect(() => {
     if (isSubmitSuccessful) {

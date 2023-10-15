@@ -9,8 +9,6 @@ export default function Auth() {
   const currentUser = useStore((state) => state.user);
   const { signInUser, signOutUser } = useFirebaseActions();
 
-  console.log("USER ", currentUser);
-
   if (currentUser) {
     return (
       <div className="flex items-center justify-center gap-2">
