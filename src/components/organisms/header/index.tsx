@@ -1,7 +1,7 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/atoms/1Button";
 
 const AuthActions = dynamic(
   () => import("@/components/organisms/authActions"),

@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { getFormattedDate } from "@/lib/utils";
 // types
 import type { TaskForApp } from "@/lib/types/tasks";
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/atoms/1Button";
 
 type TaskItemProps = {
   data: TaskForApp;

@@ -1,5 +1,5 @@
 // components
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/atoms/1Button";
 import Avatar from "@/components/molecules/avatar";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
