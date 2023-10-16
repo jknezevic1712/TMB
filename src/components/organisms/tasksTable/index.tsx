@@ -31,7 +31,7 @@ export default function TasksTable() {
 
   return (
     <div className="flex w-full flex-col gap-4 lg:flex-row">
-      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2">
+      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
         <h2 className="w-full border-b-2 border-zinc-950 pb-2 text-xl capitalize italic">
           To Do
         </h2>
@@ -49,7 +49,7 @@ export default function TasksTable() {
         </div>
       </div>
 
-      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2">
+      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
         <h2 className="w-full border-b-2 border-zinc-950 pb-2 text-xl capitalize italic">
           In Progress
         </h2>
@@ -67,7 +67,7 @@ export default function TasksTable() {
         </div>
       </div>
 
-      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2">
+      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
         <h2 className="w-full border-b-2 border-zinc-950 pb-2 text-xl capitalize italic">
           Completed
         </h2>

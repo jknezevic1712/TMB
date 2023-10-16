@@ -49,9 +49,13 @@ export default function useFirebaseActions() {
         const structuredData: TaskForApp[] = Object.entries(data).map(
           (res) => ({
             id: res[0],
+            author: res[1].author,
+            assignee: res[1].assignee,
             dateCreated: res[1].dateCreated,
             description: res[1].description,
             status: res[1].status,
+            dueDate: res[1].dueDate,
+            priority: res[1].priority,
           }),
         );
 
@@ -64,12 +68,19 @@ export default function useFirebaseActions() {
     );
   };
 
-  const addNewTask = async (description: string) => {
+  const addNewTask = async (
+    data: Omit<TaskForDB, "author" | "dateCreated" | "status">,
+  ) => {
+    const { assignee, description, dueDate, priority } = data;
     console.log("addNewTask RENDER");
     const taskData: TaskForDB = {
+      author: user?.displayName ?? "Unknown author",
+      assignee,
       dateCreated: Date.now().toString(),
       description: description,
       status: "To Do",
+      dueDate,
+      priority,
     };
 
     await addDoc(collection(db, `users/${user?.uid}/tasks`), taskData).catch(
@@ -93,7 +104,7 @@ export default function useFirebaseActions() {
     function setNewTaskStatus(): "To Do" | "In Progress" | "Completed" {
       if (newStatus === "toDoTable") return "To Do";
       else if (newStatus === "inProgressTable") return "In Progress";
-      else return "Completed";
+      return "Completed";
     }
 
     const taskRef = doc(db, "users", user!.uid, "tasks", taskID);
