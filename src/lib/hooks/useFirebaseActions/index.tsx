@@ -11,7 +11,7 @@ import { auth, db, googleProvider } from "@/server/firebase/firebase";
 
 // types
 import type { TaskForApp, TaskForDB } from "@/lib/types/tasks";
-import useStore from "../store";
+import useStore from "../useStore";
 import { type MutableRefObject, useRef } from "react";
 
 export default function useFirebaseActions() {
@@ -71,8 +71,8 @@ export default function useFirebaseActions() {
   const addNewTask = async (
     data: Omit<TaskForDB, "author" | "dateCreated" | "status">,
   ) => {
-    const { assignee, description, dueDate, priority } = data;
     console.log("addNewTask RENDER");
+    const { assignee, description, dueDate, priority } = data;
     const taskData: TaskForDB = {
       author: user?.displayName ?? "Unknown author",
       assignee,

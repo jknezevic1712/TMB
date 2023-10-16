@@ -2,8 +2,8 @@
 import { Button } from "@/components/atoms/Button";
 import Avatar from "@/components/molecules/avatar";
 // hooks
-import useFirebaseActions from "@/lib/hooks/firebase";
-import useStore from "@/lib/hooks/store";
+import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
+import useStore from "@/lib/hooks/useStore";
 
 export default function Auth() {
   const currentUser = useStore((state) => state.user);

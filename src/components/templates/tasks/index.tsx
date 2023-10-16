@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 // components
-import AddNewDialog from "../../organisms/addNewDialog";
+import AddNewDialog from "../../organisms/addNewTaskDialog";
 
 const TasksTable = dynamic(() => import("@/components/organisms/tasksTable"), {
   ssr: false,
@@ -13,11 +13,10 @@ export default function Tasks() {
         <AddNewDialog
           name="Create New"
           title="New Task"
-          description="Please provide task description"
+          description="Please provide task details"
         />
       </div>
 
-      {/* TODO: Table with tasks */}
       <TasksTable />
     </div>
   );

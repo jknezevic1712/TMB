@@ -1,7 +1,7 @@
 import { type DragEvent } from "react";
 // hooks
-import useStore from "@/lib/hooks/store";
-import useFirebaseActions from "@/lib/hooks/firebase";
+import useStore from "@/lib/hooks/useStore";
+import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // components
 import TaskItem from "@/components/molecules/taskItem";
 

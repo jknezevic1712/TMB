@@ -3,7 +3,7 @@ import Head from "next/head";
 import Tasks from "@/components/templates/tasks";
 // hooks
 import { useEffect } from "react";
-import useFirebaseActions from "@/lib/hooks/firebase";
+import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 
 export default function Home() {
   const { fetchTasks, unsubscribeFetchTasks } = useFirebaseActions();
