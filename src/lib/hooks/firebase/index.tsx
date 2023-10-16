@@ -87,6 +87,21 @@ export default function useFirebaseActions() {
     );
   };
 
+  const switchTaskStatus = (newStatus: string, taskID: string) => {
+    console.log("switchTaskStatus RENDER");
+
+    function setNewTaskStatus(): "To Do" | "In Progress" | "Completed" {
+      if (newStatus === "toDoTable") return "To Do";
+      else if (newStatus === "inProgressTable") return "In Progress";
+      else return "Completed";
+    }
+
+    const taskRef = doc(db, "users", user!.uid, "tasks", taskID);
+    setDoc(taskRef, { status: setNewTaskStatus() }, { merge: true }).catch(
+      (e) => console.log("Error switching task status, ", e),
+    );
+  };
+
   return {
     signInUser,
     signOutUser,
@@ -94,5 +109,6 @@ export default function useFirebaseActions() {
     unsubscribeFetchTasks,
     addNewTask,
     editTask,
+    switchTaskStatus,
   };
 }
