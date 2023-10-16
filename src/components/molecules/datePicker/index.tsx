@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/atoms/1Button";
+import { Button } from "@/components/atoms/button";
 import Calendar from "@/components/atoms/calendar";
 import {
   Popover,

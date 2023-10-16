@@ -16,7 +16,7 @@ import {
   DialogDescription,
   closeDialog,
 } from "@/components/molecules/dialog";
-import { Button } from "@/components/atoms/1Button";
+import { Button } from "@/components/atoms/button";
 import Textarea from "@/components/atoms/textarea";
 import DatePicker from "@/components/molecules/datePicker";
 import {
