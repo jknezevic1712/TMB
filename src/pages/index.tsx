@@ -1,16 +1,16 @@
 import Head from "next/head";
 
 // components
-import Tasks from "@/components/templates/tasks";
-import Welcome from "@/components/templates/welcome";
+import TasksTemplate from "@/components/templates/tasks";
 // hooks
 import { useEffect } from "react";
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 import useStore from "@/lib/hooks/useStore";
 // types
 import { type Unsubscribe } from "firebase/auth";
+import withAuthGuard from "@/lib/hoc/withAuthGuard";
 
-export default function Home() {
+function HomePage() {
   const { user } = useStore();
   const { fetchTasks, unsubscribeFetchTasks } = useFirebaseActions();
 
@@ -34,7 +34,12 @@ export default function Home() {
         <meta name="description" content="task overview application" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-full max-w-7xl">{user ? <Tasks /> : <Welcome />}</main>
+      <main className="w-full max-w-7xl">
+        <TasksTemplate />
+      </main>
     </>
   );
 }
+
+const HomePageWithAuthGuard = withAuthGuard(HomePage);
+export default HomePageWithAuthGuard;
