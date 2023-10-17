@@ -6,7 +6,7 @@ const TasksTable = dynamic(() => import("@/components/organisms/tasksTable"), {
   ssr: false,
 });
 
-export default function Tasks() {
+export default function TasksTemplate() {
   return (
     <div className="flex w-full flex-col items-center justify-start gap-2">
       <div className="flex w-full items-center justify-end">

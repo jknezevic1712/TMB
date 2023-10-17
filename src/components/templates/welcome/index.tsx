@@ -1,4 +1,4 @@
-export default function Welcome() {
+export default function WelcomeTemplate() {
   return (
     <div className="flex min-h-[500px] w-full items-center justify-center">
       <h1 className="text-center text-4xl">
