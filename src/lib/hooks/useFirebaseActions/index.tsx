@@ -15,7 +15,7 @@ import useStore from "../useStore";
 import { type MutableRefObject, useRef } from "react";
 
 export default function useFirebaseActions() {
-  const { user, setUser, setTasks } = useStore();
+  const { user, setUser, setTasks, resetState } = useStore();
   const unsubscribeFetchTasks: MutableRefObject<Unsubscribe | undefined> =
     useRef();
 
@@ -29,7 +29,7 @@ export default function useFirebaseActions() {
   const signOutUser = async () => {
     console.log("signOutUser RENDER");
     await signOut(auth)
-      .then(() => setUser(null))
+      .then(() => resetState())
       .catch((e) => console.log("Error signing out, ", e));
   };
 

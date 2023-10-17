@@ -4,7 +4,7 @@ import { devtools, persist } from "zustand/middleware";
 import type { User } from "firebase/auth";
 import type { TaskForApp } from "@/lib/types/tasks";
 
-const initialData = {
+const initialState = {
   user: null,
   tasks: null,
 };
@@ -16,15 +16,17 @@ interface AppState {
 interface AppActions {
   setUser: (D: User | null) => void;
   setTasks: (D: TaskForApp[]) => void;
+  resetState: () => void;
 }
 
 const useStore = create<AppState & AppActions>()(
   devtools(
     persist(
       (set) => ({
-        ...initialData,
+        ...initialState,
         setUser: (user) => set(() => ({ user })),
         setTasks: (tasks) => set(() => ({ tasks })),
+        resetState: () => set(initialState),
       }),
       { name: "tmbStore" },
     ),
