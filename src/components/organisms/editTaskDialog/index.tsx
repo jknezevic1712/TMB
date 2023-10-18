@@ -80,10 +80,10 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { assignee, description, dueDate, priority } = data;
+  function onSubmit(formData: z.infer<typeof FormSchema>) {
+    const { assignee, description, dueDate, priority } = formData;
 
-    editTask({
+    editTask(data.id, {
       assignee,
       description,
       dueDate: dueDate.getTime().toString(),
@@ -101,15 +101,7 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
 
   return (
     <DialogRoot open={showDialog} onOpenChange={setShowDialog}>
-      {/* <DialogTrigger asChild>
-        <Button variant="default">{name}</Button>
-      </DialogTrigger> */}
-      <DialogContent
-        // onEscapeKeyDown={() => setShowDialog(false)}
-        // onPointerDownOutside={() => setShowDialog(false)}
-        // onInteractOutside={() => setShowDialog(false)}
-        className="bg-zinc-100 sm:max-w-[425px]"
-      >
+      <DialogContent className="bg-zinc-100 sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Task</DialogTitle>
           <DialogDescription>Modify desired information</DialogDescription>
@@ -171,7 +163,7 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
               name="dueDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>Due Date</FormLabel>
                   <DatePicker field={field} />
                   <FormMessage />
                 </FormItem>

@@ -89,12 +89,11 @@ export default function useFirebaseActions() {
     );
   };
 
-  const editTask = (task: Partial<TaskForApp>) => {
+  const editTask = (taskID: string, data: Partial<TaskForApp>) => {
     console.log("editTask RENDER");
-    const { id, ...otherTaskData } = task;
 
-    const taskRef = doc(db, `users/${user?.uid}/tasks`, id!);
-    setDoc(taskRef, { ...otherTaskData }, { merge: true }).catch((e) =>
+    const taskRef = doc(db, `users/${user?.uid}/tasks`, taskID);
+    setDoc(taskRef, { ...data }, { merge: true }).catch((e) =>
       console.log("Error editing task, ", e),
     );
   };

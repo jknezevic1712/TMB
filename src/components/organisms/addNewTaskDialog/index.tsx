@@ -80,8 +80,8 @@ export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
     defaultValues,
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    const { assignee, description, dueDate, priority } = data;
+  function onSubmit(formData: z.infer<typeof FormSchema>) {
+    const { assignee, description, dueDate, priority } = formData;
 
     addNewTask({
       assignee,
@@ -174,7 +174,7 @@ export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
               name="dueDate"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>Due Date</FormLabel>
                   <DatePicker field={field} />
                   <FormMessage />
                 </FormItem>
