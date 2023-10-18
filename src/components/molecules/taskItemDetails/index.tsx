@@ -1,6 +1,7 @@
-import { getFormattedDate } from "@/lib/utils";
 // components
 import { Button } from "@/components/atoms/button";
+// utils
+import { getFormattedDate, setColorByTaskPriority } from "@/lib/utils";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // types
@@ -13,12 +14,6 @@ type TaskItemDetailsProps = {
 export default function TaskItemDetails(props: TaskItemDetailsProps) {
   const { data, showTaskDetails } = props;
   const { deleteTask } = useFirebaseActions();
-
-  function setColorByTaskPriority() {
-    if (data.priority === "Low") return "text-green-600";
-    else if (data.priority === "Medium") return "text-yellow-600";
-    return "text-red-600";
-  }
 
   return (
     <div
@@ -39,7 +34,9 @@ export default function TaskItemDetails(props: TaskItemDetailsProps) {
         </div>
         <div className="flex w-full items-center justify-between gap-2">
           <span
-            className={`font-semibold capitalize ${setColorByTaskPriority()}`}
+            className={`font-semibold capitalize ${setColorByTaskPriority(
+              data.priority,
+            )}`}
           >
             {data.priority} Priority
           </span>

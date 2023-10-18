@@ -1,6 +1,8 @@
 import { useState, type DragEvent } from "react";
 // components
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
+// utils
+import { setColorByTaskPriority } from "@/lib/utils";
 // types
 import type { TaskForApp } from "@/lib/types/tasks";
 import { Button } from "@/components/atoms/button";
@@ -19,12 +21,17 @@ export default function TaskItem(props: TaskItemProps) {
   return (
     <div
       id={data.id}
-      className="my-2 flex flex-col items-start gap-2 rounded-sm border-transparent bg-zinc-100 p-2 pb-0 shadow-md transition-all"
+      className="my-2 flex flex-col items-start gap-2 rounded-sm border-transparent bg-zinc-100 p-2 pb-0 shadow-md transition-all hover:shadow-xl"
       draggable
       onDragStart={(e) => dragEvent(e)}
       // onClick={() => setShowEditDialog(true)}
     >
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <span>
+          <AlertTriangle
+            className={`${setColorByTaskPriority(data.priority)}`}
+          />
+        </span>
         <p className="leading-normal">{data.description}</p>
       </div>
 
