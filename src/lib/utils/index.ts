@@ -43,7 +43,22 @@ export function sortTasks(tasks: TaskForApp[]): TaskForApp[] {
   return tasks;
 }
 
-export function filterTasks(filter: string, tasks: TaskForApp[]) {
-  if (filter.length < 1) return tasks;
-  return [...tasks].filter((task) => task.description.includes(filter));
+export type TaskStateData = {
+  description: string;
+  assignee: string | null;
+  priority: number | null;
+  dueDate: number | null;
+};
+export function filterTasks(filters: TaskStateData, tasks: TaskForApp[]) {
+  return [...tasks].filter(
+    (task) =>
+      (filters.description.length > 0
+        ? task.description
+            .toLowerCase()
+            .includes(filters.description.toLowerCase())
+        : true) &&
+      (filters.assignee ? task.assignee.includes(filters.assignee) : true) &&
+      (filters.dueDate ? +task.dueDate >= filters.dueDate : true) &&
+      (filters.priority ? task.priority === filters.priority : true),
+  );
 }

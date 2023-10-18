@@ -3,7 +3,7 @@ import { useEffect, useReducer, useState } from "react";
 // custom hooks
 import useStore from "@/lib/hooks/useStore";
 // utils
-import { filterTasks } from "@/lib/utils";
+import { type TaskStateData, filterTasks } from "@/lib/utils";
 // components
 import AddNewDialog from "../../organisms/addNewTaskDialog";
 import TaskFilter from "@/components/organisms/taskFilter";
@@ -12,25 +12,19 @@ const TasksTable = dynamic(() => import("@/components/organisms/tasksTable"), {
   ssr: false,
 });
 
-export type InitialState = {
-  description: string;
-  assignee: string | null;
-  priority: number | null;
-  dueDate: number | null;
-};
 export type ReducerActions =
   | { type: "DESCRIPTION"; payload: string }
   | { type: "ASSIGNEE"; payload: string | null }
   | { type: "PRIORITY" | "DUE_DATE"; payload: number | null }
   | { type: "RESET"; payload: undefined };
 
-const initialState: InitialState = {
+const initialState: TaskStateData = {
   description: "",
   assignee: null,
   priority: null,
   dueDate: null,
 };
-function filterReducer(state: InitialState, action: ReducerActions) {
+function filterReducer(state: TaskStateData, action: ReducerActions) {
   const { type, payload } = action;
   switch (type) {
     case "DESCRIPTION":
@@ -54,7 +48,7 @@ export default function TasksTemplate() {
   const [filters, dispatch] = useReducer(filterReducer, initialState);
 
   useEffect(() => {
-    // setTasks(filterTasks(filters, storeTasks ?? []));
+    setTasks(filterTasks(filters, storeTasks ?? []));
   }, [filters, storeTasks]);
 
   return (
