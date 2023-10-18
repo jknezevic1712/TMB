@@ -1,44 +1,66 @@
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-// components
-import { Input } from "@/components/atoms/input";
-import AddNewDialog from "../../organisms/addNewTaskDialog";
-import { X } from "lucide-react";
+import { useEffect, useReducer, useState } from "react";
 // custom hooks
 import useStore from "@/lib/hooks/useStore";
 // utils
 import { filterTasks } from "@/lib/utils";
+// components
+import AddNewDialog from "../../organisms/addNewTaskDialog";
+import TaskFilter from "@/components/organisms/taskFilter";
 
 const TasksTable = dynamic(() => import("@/components/organisms/tasksTable"), {
   ssr: false,
 });
 
+export type InitialState = {
+  description: string;
+  assignee: string | null;
+  priority: number | null;
+  dueDate: number | null;
+};
+export type ReducerActions =
+  | { type: "DESCRIPTION"; payload: string }
+  | { type: "ASSIGNEE"; payload: string | null }
+  | { type: "PRIORITY" | "DUE_DATE"; payload: number | null }
+  | { type: "RESET"; payload: undefined };
+
+const initialState: InitialState = {
+  description: "",
+  assignee: null,
+  priority: null,
+  dueDate: null,
+};
+function filterReducer(state: InitialState, action: ReducerActions) {
+  const { type, payload } = action;
+  switch (type) {
+    case "DESCRIPTION":
+      return (state = { ...state, description: payload });
+    case "ASSIGNEE":
+      return (state = { ...state, assignee: payload });
+    case "PRIORITY":
+      return (state = { ...state, priority: payload });
+    case "DUE_DATE":
+      return (state = { ...state, dueDate: payload });
+    case "RESET":
+      return initialState;
+    default:
+      return state;
+  }
+}
+
 export default function TasksTemplate() {
   const storeTasks = useStore((s) => s.tasks);
   const [tasks, setTasks] = useState(storeTasks);
-  const [filter, setFilter] = useState("");
+  const [filters, dispatch] = useReducer(filterReducer, initialState);
 
   useEffect(() => {
-    setTasks(filterTasks(filter, storeTasks ?? []));
-  }, [filter, storeTasks]);
+    // setTasks(filterTasks(filters, storeTasks ?? []));
+  }, [filters, storeTasks]);
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-2">
       <div className="flex w-full items-center justify-between">
-        <div className="relative">
-          <Input
-            className="max-w-xs border-zinc-300 pr-10"
-            placeholder="Filter by description..."
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-          />
-          <div
-            className="absolute right-1 top-0 mt-2 cursor-pointer"
-            onClick={() => setFilter("")}
-          >
-            <X />
-          </div>
-        </div>
+        <TaskFilter filters={filters} dispatch={dispatch} />
         <AddNewDialog
           name="Create New"
           title="New Task"

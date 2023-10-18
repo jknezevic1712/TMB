@@ -6,7 +6,8 @@ import * as z from "zod";
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 import { toast } from "@/lib/hooks/useToast";
 // utils
-import { taskPriorities } from "@/lib/utils";
+import { taskPriorities } from "@/lib/assets";
+import { DialogFormSchema, assigneesMockData } from "@/lib/assets";
 // types
 import type { TaskForApp } from "@/lib/types/tasks";
 // components
@@ -38,30 +39,6 @@ import {
   FormMessage,
 } from "@/components/molecules/form";
 
-const FormSchema = z.object({
-  assignee: z.string({
-    required_error: "Please select an assignee.",
-  }),
-  description: z
-    .string({
-      required_error: "Please fill out description.",
-    })
-    .min(1, "Description can't be empty."),
-  dueDate: z.date({
-    required_error: "Please select due date.",
-  }),
-  priority: z.string({
-    required_error: "Please select priority.",
-  }),
-});
-
-const assigneesSelectValues = [
-  "John Doe",
-  "Jane Doe",
-  "Patrick Jane",
-  "Kimball Cho",
-];
-
 type EditTaskDialogProps = {
   data: TaskForApp;
   showDialog: boolean;
@@ -70,8 +47,8 @@ type EditTaskDialogProps = {
 export default function EditTaskDialog(props: EditTaskDialogProps) {
   const { data, showDialog, setShowDialog } = props;
   const { editTask } = useFirebaseActions();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof DialogFormSchema>>({
+    resolver: zodResolver(DialogFormSchema),
     defaultValues: {
       assignee: data.assignee,
       description: data.description,
@@ -80,7 +57,7 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
     },
   });
 
-  function onSubmit(formData: z.infer<typeof FormSchema>) {
+  function onSubmit(formData: z.infer<typeof DialogFormSchema>) {
     const { assignee, description, dueDate, priority } = formData;
 
     editTask(data.id, {
@@ -129,7 +106,7 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {assigneesSelectValues.map((val, idx) => (
+                      {assigneesMockData.map((val, idx) => (
                         <SelectItem key={idx} value={val}>
                           {val}
                         </SelectItem>

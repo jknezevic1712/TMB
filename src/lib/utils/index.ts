@@ -30,8 +30,6 @@ export function setColorByTaskPriority(priority: number) {
   return "text-green-600";
 }
 
-export const taskPriorities = ["Low", "Medium", "High"];
-
 export function sortTasks(tasks: TaskForApp[]): TaskForApp[] {
   tasks.sort((a, b) => {
     if (a.priority < b.priority) {

@@ -1,12 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import type * as z from "zod";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 import { toast } from "@/lib/hooks/useToast";
 // utils
-import { taskPriorities } from "@/lib/utils";
+import { taskPriorities } from "@/lib/assets";
+import { DialogFormSchema, assigneesMockData } from "@/lib/assets";
 // components
 import {
   DialogRoot,
@@ -37,35 +38,12 @@ import {
   FormMessage,
 } from "@/components/molecules/form";
 
-const FormSchema = z.object({
-  assignee: z.string({
-    required_error: "Please select an assignee.",
-  }),
-  description: z
-    .string({
-      required_error: "Please fill out description.",
-    })
-    .min(1, "Description can't be empty."),
-  dueDate: z.date({
-    required_error: "Please select due date.",
-  }),
-  priority: z.string({
-    required_error: "Please select priority.",
-  }),
-});
-
 const defaultValues = {
   assignee: undefined,
   description: "",
   dueDate: undefined,
   priority: "0",
 };
-const assigneesSelectValues = [
-  "John Doe",
-  "Jane Doe",
-  "Patrick Jane",
-  "Kimball Cho",
-];
 
 type AddNewTaskDialogProps = {
   name: string;
@@ -75,12 +53,12 @@ type AddNewTaskDialogProps = {
 export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
   const { name, title, description } = props;
   const { addNewTask } = useFirebaseActions();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof DialogFormSchema>>({
+    resolver: zodResolver(DialogFormSchema),
     defaultValues,
   });
 
-  function onSubmit(formData: z.infer<typeof FormSchema>) {
+  function onSubmit(formData: z.infer<typeof DialogFormSchema>) {
     const { assignee, description, dueDate, priority } = formData;
 
     addNewTask({
@@ -140,7 +118,7 @@ export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {assigneesSelectValues.map((val, idx) => (
+                      {assigneesMockData.map((val, idx) => (
                         <SelectItem key={idx} value={val}>
                           {val}
                         </SelectItem>

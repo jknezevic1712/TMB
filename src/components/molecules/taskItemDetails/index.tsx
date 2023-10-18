@@ -1,11 +1,8 @@
 // components
 import { Button } from "@/components/atoms/button";
 // utils
-import {
-  getFormattedDate,
-  setColorByTaskPriority,
-  taskPriorities,
-} from "@/lib/utils";
+import { getFormattedDate, setColorByTaskPriority } from "@/lib/utils";
+import { taskPriorities } from "@/lib/assets";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // types
