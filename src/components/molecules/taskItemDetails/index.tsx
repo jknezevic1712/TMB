@@ -10,13 +10,15 @@ import {
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // types
 import { type TaskForApp } from "@/lib/types/tasks";
+import type { Dispatch, SetStateAction } from "react";
 
 type TaskItemDetailsProps = {
   data: TaskForApp;
   showTaskDetails: boolean;
+  setShowEditDialog: Dispatch<SetStateAction<boolean>>;
 };
 export default function TaskItemDetails(props: TaskItemDetailsProps) {
-  const { data, showTaskDetails } = props;
+  const { data, showTaskDetails, setShowEditDialog } = props;
   const { deleteTask } = useFirebaseActions();
 
   return (
@@ -46,7 +48,14 @@ export default function TaskItemDetails(props: TaskItemDetailsProps) {
           </span>
           <span>{getFormattedDate(+data.dueDate)}</span>
         </div>
-        <div className="flex w-full items-center justify-center pt-2">
+        <div className="flex w-full items-center justify-center gap-2 pt-2">
+          <Button
+            variant="info"
+            className="w-full"
+            onClick={() => setShowEditDialog(true)}
+          >
+            Edit
+          </Button>
           <Button
             variant="destructive"
             className="w-full"

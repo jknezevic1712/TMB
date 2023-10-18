@@ -24,7 +24,6 @@ export default function TaskItem(props: TaskItemProps) {
       className="my-2 flex flex-col items-start gap-2 rounded-sm border-transparent bg-zinc-100 p-2 pb-0 shadow-md transition-all hover:shadow-xl"
       draggable
       onDragStart={(e) => dragEvent(e)}
-      // onClick={() => setShowEditDialog(true)}
     >
       <div className="flex flex-col gap-2">
         <span>
@@ -44,7 +43,11 @@ export default function TaskItem(props: TaskItemProps) {
         </Button>
       </div>
 
-      <TaskItemDetails data={data} showTaskDetails={showTaskDetails} />
+      <TaskItemDetails
+        data={data}
+        showTaskDetails={showTaskDetails}
+        setShowEditDialog={setShowEditDialog}
+      />
 
       {showEditDialog && (
         <EditTaskDialog
