@@ -1,7 +1,11 @@
 // components
 import { Button } from "@/components/atoms/button";
 // utils
-import { getFormattedDate, setColorByTaskPriority } from "@/lib/utils";
+import {
+  getFormattedDate,
+  setColorByTaskPriority,
+  taskPriorities,
+} from "@/lib/utils";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // types
@@ -38,7 +42,7 @@ export default function TaskItemDetails(props: TaskItemDetailsProps) {
               data.priority,
             )}`}
           >
-            {data.priority} Priority
+            {taskPriorities[data.priority]} Priority
           </span>
           <span>{getFormattedDate(+data.dueDate)}</span>
         </div>

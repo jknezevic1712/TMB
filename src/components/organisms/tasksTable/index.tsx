@@ -1,12 +1,12 @@
 import { type DragEvent } from "react";
 // hooks
-import useStore from "@/lib/hooks/useStore";
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // components
 import TaskItem from "@/components/molecules/taskItem";
+// types
+import type { TaskForApp } from "@/lib/types/tasks";
 
-export default function TasksTable() {
-  const tasks = useStore((s) => s.tasks);
+export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
   const { switchTaskStatus } = useFirebaseActions();
 
   function allowDrop(e: DragEvent<HTMLDivElement>) {

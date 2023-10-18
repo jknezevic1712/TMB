@@ -5,7 +5,7 @@ export interface TaskForDB {
   description: string;
   status: "To Do" | "In Progress" | "Completed";
   dueDate: string;
-  priority: string;
+  priority: number;
 }
 
 export interface TaskForApp extends TaskForDB {

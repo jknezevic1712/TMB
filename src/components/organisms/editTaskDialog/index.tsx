@@ -5,12 +5,15 @@ import * as z from "zod";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 import { toast } from "@/lib/hooks/useToast";
+// utils
+import { taskPriorities } from "@/lib/utils";
+// types
+import type { TaskForApp } from "@/lib/types/tasks";
 // components
 import {
   DialogRoot,
   DialogHeader,
   DialogFooter,
-  DialogTrigger,
   DialogContent,
   DialogTitle,
   DialogDescription,
@@ -34,7 +37,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/molecules/form";
-import { type TaskForApp } from "@/lib/types/tasks";
 
 const FormSchema = z.object({
   assignee: z.string({
@@ -59,7 +61,6 @@ const assigneesSelectValues = [
   "Patrick Jane",
   "Kimball Cho",
 ];
-const prioritySelectValues = ["Low", "Medium", "High"];
 
 type EditTaskDialogProps = {
   data: TaskForApp;
@@ -75,7 +76,7 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
       assignee: data.assignee,
       description: data.description,
       dueDate: new Date(data.dueDate),
-      priority: data.priority,
+      priority: data.priority.toString(),
     },
   });
 
@@ -86,7 +87,7 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
       assignee,
       description,
       dueDate: dueDate.getTime().toString(),
-      priority,
+      priority: +priority,
     });
   }
 
@@ -193,8 +194,8 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {prioritySelectValues.map((val, idx) => (
-                        <SelectItem key={idx} value={val}>
+                      {taskPriorities.map((val, idx) => (
+                        <SelectItem key={idx} value={idx.toString()}>
                           {val}
                         </SelectItem>
                       ))}

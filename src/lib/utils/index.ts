@@ -22,8 +22,10 @@ export function getFormattedDate(date?: number) {
   return formattedDate;
 }
 
-export function setColorByTaskPriority(priority: string) {
-  if (priority === "High") return "text-red-600";
-  else if (priority === "Medium") return "text-yellow-600";
+export function setColorByTaskPriority(priority: number) {
+  if (priority === 2) return "text-red-600";
+  else if (priority === 1) return "text-yellow-600";
   return "text-green-600";
 }
+
+export const taskPriorities = ["Low", "Medium", "High"];

@@ -5,6 +5,8 @@ import * as z from "zod";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 import { toast } from "@/lib/hooks/useToast";
+// utils
+import { taskPriorities } from "@/lib/utils";
 // components
 import {
   DialogRoot,
@@ -56,7 +58,7 @@ const defaultValues = {
   assignee: undefined,
   description: "",
   dueDate: undefined,
-  priority: "Low",
+  priority: "0",
 };
 const assigneesSelectValues = [
   "John Doe",
@@ -64,7 +66,6 @@ const assigneesSelectValues = [
   "Patrick Jane",
   "Kimball Cho",
 ];
-const prioritySelectValues = ["Low", "Medium", "High"];
 
 type AddNewTaskDialogProps = {
   name: string;
@@ -86,7 +87,7 @@ export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
       assignee,
       description,
       dueDate: dueDate.getTime().toString(),
-      priority,
+      priority: +priority,
     }).catch((e) =>
       toast({
         title: "Error adding new task",
@@ -196,8 +197,8 @@ export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {prioritySelectValues.map((val, idx) => (
-                        <SelectItem key={idx} value={val}>
+                      {taskPriorities.map((val, idx) => (
+                        <SelectItem key={idx} value={idx.toString()}>
                           {val}
                         </SelectItem>
                       ))}
