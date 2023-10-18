@@ -5,6 +5,7 @@ import {
   onSnapshot,
   doc,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { type Unsubscribe, signInWithPopup, signOut } from "firebase/auth";
 import { auth, db, googleProvider } from "@/server/firebase/firebase";
@@ -113,6 +114,13 @@ export default function useFirebaseActions() {
     );
   };
 
+  const deleteTask = (taskID: string) => {
+    console.log("deleteTask RENDER");
+    deleteDoc(doc(db, "users", user!.uid, "tasks", taskID)).catch((e) =>
+      console.log("Error deleting task, ", e),
+    );
+  };
+
   return {
     signInUser,
     signOutUser,
@@ -121,5 +129,6 @@ export default function useFirebaseActions() {
     addNewTask,
     editTask,
     switchTaskStatus,
+    deleteTask,
   };
 }

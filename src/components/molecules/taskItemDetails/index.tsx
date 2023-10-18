@@ -1,6 +1,8 @@
 import { getFormattedDate } from "@/lib/utils";
 // components
 import { Button } from "@/components/atoms/button";
+// hooks
+import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // types
 import { type TaskForApp } from "@/lib/types/tasks";
 
@@ -10,6 +12,7 @@ type TaskItemDetailsProps = {
 };
 export default function TaskItemDetails(props: TaskItemDetailsProps) {
   const { data, showTaskDetails } = props;
+  const { deleteTask } = useFirebaseActions();
 
   function setColorByTaskPriority() {
     if (data.priority === "Low") return "text-green-600";
@@ -43,7 +46,11 @@ export default function TaskItemDetails(props: TaskItemDetailsProps) {
           <span>{getFormattedDate(+data.dueDate)}</span>
         </div>
         <div className="flex w-full items-center justify-center pt-2">
-          <Button variant="destructive" className="w-full">
+          <Button
+            variant="destructive"
+            className="w-full"
+            onClick={() => deleteTask(data.id)}
+          >
             Delete
           </Button>
         </div>
