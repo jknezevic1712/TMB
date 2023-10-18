@@ -1,4 +1,6 @@
 import { getFormattedDate } from "@/lib/utils";
+// components
+import { Button } from "@/components/atoms/button";
 // types
 import { type TaskForApp } from "@/lib/types/tasks";
 
@@ -39,6 +41,11 @@ export default function TaskItemDetails(props: TaskItemDetailsProps) {
             {data.priority} Priority
           </span>
           <span>{getFormattedDate(+data.dueDate)}</span>
+        </div>
+        <div className="flex w-full items-center justify-center pt-2">
+          <Button variant="destructive" className="w-full">
+            Delete
+          </Button>
         </div>
       </div>
     </div>
