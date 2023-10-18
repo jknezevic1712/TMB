@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+// types
+import type { TaskForApp } from "../types/tasks";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,3 +31,16 @@ export function setColorByTaskPriority(priority: number) {
 }
 
 export const taskPriorities = ["Low", "Medium", "High"];
+
+export function sortTasks(tasks: TaskForApp[]): TaskForApp[] {
+  tasks.sort((a, b) => {
+    if (a.priority < b.priority) {
+      return 1;
+    } else if (a.priority > b.priority) {
+      return -1;
+    }
+    return +a.dateCreated >= +b.dateCreated ? -1 : 1;
+  });
+
+  return tasks;
+}
