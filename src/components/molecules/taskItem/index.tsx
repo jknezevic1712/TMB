@@ -1,13 +1,13 @@
 import { useState, type DragEvent } from "react";
 // components
 import { AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/atoms/button";
+import TaskItemDetails from "@/components/molecules/taskItemDetails";
+import EditTaskDialog from "@/components/organisms/editTaskDialog";
 // utils
 import { setColorByTaskPriority } from "@/lib/utils";
 // types
 import type { TaskForApp } from "@/lib/types/tasks";
-import { Button } from "@/components/atoms/button";
-import TaskItemDetails from "../taskItemDetails";
-import EditTaskDialog from "@/components/organisms/editTaskDialog";
 
 type TaskItemProps = {
   data: TaskForApp;

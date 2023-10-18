@@ -28,8 +28,8 @@ export default function TaskItemDetails(props: TaskItemDetailsProps) {
           <span className="font-semibold capitalize italic">{data.author}</span>
           <span>{getFormattedDate(+data.dateCreated)}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="font-semibold">Assignee:</span>
+        <div className="flex w-full items-center justify-between">
+          <span className="font-semibold">Assignee</span>
           <span className="capitalize">{data.assignee}</span>
         </div>
         <div className="flex w-full items-center justify-between gap-2">
