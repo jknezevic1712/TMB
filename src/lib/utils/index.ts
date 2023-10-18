@@ -44,3 +44,8 @@ export function sortTasks(tasks: TaskForApp[]): TaskForApp[] {
 
   return tasks;
 }
+
+export function filterTasks(filter: string, tasks: TaskForApp[]) {
+  if (filter.length < 1) return tasks;
+  return [...tasks].filter((task) => task.description.includes(filter));
+}

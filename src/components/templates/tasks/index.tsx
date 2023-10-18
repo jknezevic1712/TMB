@@ -1,9 +1,12 @@
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 // components
+import { Input } from "@/components/atoms/input";
 import AddNewDialog from "../../organisms/addNewTaskDialog";
-// hooks
+// custom hooks
 import useStore from "@/lib/hooks/useStore";
-import { useState } from "react";
+// utils
+import { filterTasks } from "@/lib/utils";
 
 const TasksTable = dynamic(() => import("@/components/organisms/tasksTable"), {
   ssr: false,
@@ -11,13 +14,22 @@ const TasksTable = dynamic(() => import("@/components/organisms/tasksTable"), {
 
 export default function TasksTemplate() {
   const storeTasks = useStore((s) => s.tasks);
-  // const [tasks, setTasks] = useState(() => storeTasks?.map((t) => t).sort((a, b) => {
-  //   return
-  // }))
+  const [tasks, setTasks] = useState(storeTasks);
+  const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    setTasks(filterTasks(filter, storeTasks ?? []));
+  }, [filter, storeTasks]);
 
   return (
     <div className="flex w-full flex-col items-center justify-start gap-2">
-      <div className="flex w-full items-center justify-end">
+      <div className="flex w-full items-center justify-between">
+        <Input
+          className="max-w-xs border-zinc-300"
+          placeholder="Filter by description..."
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        />
         <AddNewDialog
           name="Create New"
           title="New Task"
@@ -25,7 +37,7 @@ export default function TasksTemplate() {
         />
       </div>
 
-      <TasksTable tasks={storeTasks} />
+      <TasksTable tasks={tasks} />
     </div>
   );
 }
