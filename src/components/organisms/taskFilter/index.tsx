@@ -2,14 +2,12 @@ import { Input } from "@/components/atoms/input";
 import { DropdownMenuFilter } from "../dropdownMenuFilter";
 import { X } from "lucide-react";
 // types
-import type {
-  InitialState,
-  ReducerActions,
-} from "@/components/templates/tasks";
+import type { ReducerActions } from "@/components/templates/tasks";
 import type { Dispatch } from "react";
+import type { TaskStateData } from "@/lib/utils";
 
 type TaskFilterProps = {
-  filters: InitialState;
+  filters: TaskStateData;
   dispatch: Dispatch<ReducerActions>;
 };
 export default function TaskFilter(props: TaskFilterProps) {
