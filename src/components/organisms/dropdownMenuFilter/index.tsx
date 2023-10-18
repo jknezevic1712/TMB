@@ -1,10 +1,9 @@
 import * as React from "react";
 // utils
 import { assigneesMockData, taskPriorities } from "@/lib/assets";
-import type {
-  InitialState,
-  ReducerActions,
-} from "@/components/templates/tasks";
+import type { ReducerActions } from "@/components/templates/tasks";
+// types
+import type { TaskStateData } from "@/lib/utils";
 // components
 import {
   DropdownMenuRoot,
@@ -24,7 +23,7 @@ import FilterDatePicker from "@/components/molecules/filterDatePicker";
 import { Button } from "@/components/atoms/button";
 
 type DropdownMenuFilterProps = {
-  filters: InitialState;
+  filters: TaskStateData;
   dispatch: React.Dispatch<ReducerActions>;
 };
 export function DropdownMenuFilter(props: DropdownMenuFilterProps) {
