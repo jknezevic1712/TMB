@@ -5,6 +5,7 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import type { TaskForApp } from "@/lib/types/tasks";
 import { Button } from "@/components/atoms/button";
 import TaskItemDetails from "../taskItemDetails";
+import EditTaskDialog from "@/components/organisms/editTaskDialog";
 
 type TaskItemProps = {
   data: TaskForApp;
@@ -13,6 +14,7 @@ type TaskItemProps = {
 export default function TaskItem(props: TaskItemProps) {
   const { data, dragEvent } = props;
   const [showTaskDetails, setShowTaskDetails] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   return (
     <div
@@ -20,6 +22,7 @@ export default function TaskItem(props: TaskItemProps) {
       className="my-2 flex flex-col items-start gap-2 rounded-sm border-transparent bg-zinc-100 p-2 pb-0 shadow-md transition-all"
       draggable
       onDragStart={(e) => dragEvent(e)}
+      // onClick={() => setShowEditDialog(true)}
     >
       <div className="flex flex-col gap-4">
         <p className="leading-normal">{data.description}</p>
@@ -35,6 +38,14 @@ export default function TaskItem(props: TaskItemProps) {
       </div>
 
       <TaskItemDetails data={data} showTaskDetails={showTaskDetails} />
+
+      {showEditDialog && (
+        <EditTaskDialog
+          data={data}
+          showDialog={showEditDialog}
+          setShowDialog={setShowEditDialog}
+        />
+      )}
     </div>
   );
 }

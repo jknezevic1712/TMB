@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { type Dispatch, type SetStateAction, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 // hooks
@@ -34,6 +34,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/molecules/form";
+import { type TaskForApp } from "@/lib/types/tasks";
 
 const FormSchema = z.object({
   assignee: z.string({
@@ -52,12 +53,6 @@ const FormSchema = z.object({
   }),
 });
 
-const defaultValues = {
-  assignee: undefined,
-  description: "",
-  dueDate: undefined,
-  priority: "Low",
-};
 const assigneesSelectValues = [
   "John Doe",
   "Jane Doe",
@@ -66,55 +61,57 @@ const assigneesSelectValues = [
 ];
 const prioritySelectValues = ["Low", "Medium", "High"];
 
-type AddNewTaskDialogProps = {
-  name: string;
-  title: string;
-  description: string;
+type EditTaskDialogProps = {
+  data: TaskForApp;
+  showDialog: boolean;
+  setShowDialog: Dispatch<SetStateAction<boolean>>;
 };
-export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
-  const { name, title, description } = props;
-  const { addNewTask } = useFirebaseActions();
+export default function EditTaskDialog(props: EditTaskDialogProps) {
+  const { data, showDialog, setShowDialog } = props;
+  const { editTask } = useFirebaseActions();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues,
+    defaultValues: {
+      assignee: data.assignee,
+      description: data.description,
+      dueDate: new Date(data.dueDate),
+      priority: data.priority,
+    },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const { assignee, description, dueDate, priority } = data;
 
-    addNewTask({
+    editTask({
       assignee,
       description,
       dueDate: dueDate.getTime().toString(),
       priority,
-    }).catch((e) =>
-      toast({
-        title: "Error adding new task",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{e}</code>
-          </pre>
-        ),
-      }),
-    );
+    });
   }
 
   useEffect(() => {
     if (form.formState.isSubmitSuccessful) {
       closeDialog();
+      setShowDialog(false);
       form.reset();
     }
   }, [form.formState.isSubmitSuccessful, form.reset]);
 
   return (
-    <DialogRoot>
-      <DialogTrigger asChild>
+    <DialogRoot open={showDialog} onOpenChange={setShowDialog}>
+      {/* <DialogTrigger asChild>
         <Button variant="default">{name}</Button>
-      </DialogTrigger>
-      <DialogContent className="bg-zinc-100 sm:max-w-[425px]">
+      </DialogTrigger> */}
+      <DialogContent
+        // onEscapeKeyDown={() => setShowDialog(false)}
+        // onPointerDownOutside={() => setShowDialog(false)}
+        // onInteractOutside={() => setShowDialog(false)}
+        className="bg-zinc-100 sm:max-w-[425px]"
+      >
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogTitle>Edit Task</DialogTitle>
+          <DialogDescription>Modify desired information</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
