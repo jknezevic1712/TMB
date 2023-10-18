@@ -75,7 +75,7 @@ export default function EditTaskDialog(props: EditTaskDialogProps) {
     defaultValues: {
       assignee: data.assignee,
       description: data.description,
-      dueDate: new Date(data.dueDate),
+      dueDate: new Date(+data.dueDate),
       priority: data.priority.toString(),
     },
   });
