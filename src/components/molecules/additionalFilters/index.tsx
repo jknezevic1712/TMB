@@ -22,11 +22,11 @@ import { ListFilter, Trash2 } from "lucide-react";
 import FilterDatePicker from "@/components/molecules/filterDatePicker";
 import { Button } from "@/components/atoms/button";
 
-type DropdownMenuFilterProps = {
+type AdditionalFiltersProps = {
   filters: TaskStateData;
   dispatch: React.Dispatch<ReducerActions>;
 };
-export function DropdownMenuFilter(props: DropdownMenuFilterProps) {
+export function AdditionalFilters(props: AdditionalFiltersProps) {
   const { filters, dispatch } = props;
 
   return (
