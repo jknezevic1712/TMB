@@ -93,10 +93,10 @@ export default function useFirebaseActions() {
       },
       (queryError) =>
         toast({
-          title: "Error fetching the tasks",
+          title: "Error fetching tasks",
           description: (
             <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{queryError.name}</code>
+              <code className="text-white">{queryError.message}</code>
             </pre>
           ),
         }),
@@ -120,7 +120,7 @@ export default function useFirebaseActions() {
     await addDoc(collection(db, `users/${user?.uid}/tasks`), taskData)
       .then(() =>
         toast({
-          title: "Successfully added the task",
+          title: "Successfully added task",
         }),
       )
       .catch((e) =>
@@ -140,7 +140,7 @@ export default function useFirebaseActions() {
     setDoc(taskRef, { ...data }, { merge: true })
       .then(() =>
         toast({
-          title: "Successfully edited the task",
+          title: "Successfully edited task",
         }),
       )
       .catch((e) =>
@@ -166,7 +166,7 @@ export default function useFirebaseActions() {
     setDoc(taskRef, { status: setNewTaskStatus() }, { merge: true })
       .then(() =>
         toast({
-          title: `Successfully switched the task to '${setNewTaskStatus()}' table`,
+          title: `Successfully switched task to '${setNewTaskStatus()}' table`,
         }),
       )
       .catch((e) =>
@@ -185,7 +185,7 @@ export default function useFirebaseActions() {
     deleteDoc(doc(db, "users", user!.uid, "tasks", taskID))
       .then(() =>
         toast({
-          title: "Successfully deleted the task",
+          title: "Successfully deleted task",
         }),
       )
       .catch((e) =>
