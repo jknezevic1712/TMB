@@ -13,16 +13,20 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
     e.preventDefault();
   }
 
-  function drag(e: DragEvent<HTMLDivElement>) {
-    e.dataTransfer.setData("text", (e.target as any).id);
+  function drag(e: DragEvent<HTMLDivElement>, tableID: string) {
+    e.dataTransfer.setData("taskID", e.currentTarget.id);
+    e.dataTransfer.setData("tableID", tableID);
   }
 
   function drop(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
-    const taskID = e.dataTransfer.getData("text");
-    const newTaskStatusTableID = e.currentTarget.id;
+    const taskID = e.dataTransfer.getData("taskID");
+    const oldTableID = e.dataTransfer.getData("tableID");
+    const newTableID = e.currentTarget.id;
 
-    switchTaskStatus(newTaskStatusTableID, taskID);
+    if (oldTableID !== newTableID) {
+      switchTaskStatus(newTableID, taskID);
+    }
   }
 
   if (!tasks) {
@@ -44,7 +48,11 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
           {tasks
             .filter((task) => task.status === "To Do")
             .map((task) => (
-              <TaskItem key={task.id} data={task} dragEvent={(e) => drag(e)} />
+              <TaskItem
+                key={task.id}
+                data={task}
+                dragEvent={(e) => drag(e, "toDoTable")}
+              />
             ))}
         </div>
       </div>
@@ -62,7 +70,11 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
           {tasks
             .filter((task) => task.status === "In Progress")
             .map((task) => (
-              <TaskItem key={task.id} data={task} dragEvent={(e) => drag(e)} />
+              <TaskItem
+                key={task.id}
+                data={task}
+                dragEvent={(e) => drag(e, "inProgressTable")}
+              />
             ))}
         </div>
       </div>
@@ -80,7 +92,11 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
           {tasks
             .filter((task) => task.status === "Completed")
             .map((task) => (
-              <TaskItem key={task.id} data={task} dragEvent={(e) => drag(e)} />
+              <TaskItem
+                key={task.id}
+                data={task}
+                dragEvent={(e) => drag(e, "completedTable")}
+              />
             ))}
         </div>
       </div>
