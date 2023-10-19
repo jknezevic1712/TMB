@@ -29,8 +29,14 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
     }
   }
 
-  if (!tasks) {
-    return <p>No Tasks</p>;
+  if (!tasks || tasks.length < 1) {
+    return (
+      <div className="flex min-h-[300px] w-full items-center justify-center">
+        <h1 className="text-center text-xl capitalize">
+          No tasks, so create a new one!
+        </h1>
+      </div>
+    );
   }
 
   return (
