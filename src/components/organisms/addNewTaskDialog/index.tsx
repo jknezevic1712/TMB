@@ -78,7 +78,9 @@ export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
   return (
     <DialogRoot>
       <DialogTrigger asChild>
-        <Button variant="default">{name}</Button>
+        <Button className="w-full md:w-fit" variant="default">
+          {name}
+        </Button>
       </DialogTrigger>
       <DialogContent className="bg-zinc-100 sm:max-w-[425px]">
         <DialogHeader>

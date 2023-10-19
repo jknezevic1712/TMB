@@ -52,8 +52,8 @@ export default function TasksTemplate() {
   }, [filters, storeTasks]);
 
   return (
-    <div className="flex w-full flex-col items-center justify-start gap-2">
-      <div className="flex w-full items-center justify-between">
+    <div className="flex w-full flex-col items-center justify-start gap-8">
+      <div className="flex w-full flex-col items-center justify-center gap-2 md:flex-row md:justify-between md:gap-0">
         <TaskFilter filters={filters} dispatch={dispatch} />
         <AddNewDialog
           name="Create New"
