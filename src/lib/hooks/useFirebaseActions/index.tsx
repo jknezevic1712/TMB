@@ -9,34 +9,61 @@ import {
 } from "firebase/firestore";
 import { type Unsubscribe, signInWithPopup, signOut } from "firebase/auth";
 import { auth, db, googleProvider } from "@/server/firebase/firebase";
-
+// custom hooks
+import useStore from "@/lib/hooks/useStore";
+import { useToast } from "@/lib/hooks/useToast";
 // types
 import type { TaskForApp, TaskForDB } from "@/lib/types/tasks";
-import useStore from "../useStore";
 import { type MutableRefObject, useRef } from "react";
 
 export default function useFirebaseActions() {
   const { user, setUser, setTasks, resetState } = useStore();
+  const { toast } = useToast();
   const unsubscribeFetchTasks: MutableRefObject<Unsubscribe | undefined> =
     useRef();
 
   const signInUser = async () => {
-    console.log("signInUser RENDER");
     await signInWithPopup(auth, googleProvider)
-      .then((userCredentials) => setUser(userCredentials.user))
-      .catch((e) => console.log("Error signing in, ", e));
+      .then((userCredentials) => {
+        setUser(userCredentials.user);
+        toast({
+          title: "Successfully signed in",
+        });
+      })
+      .catch((e) =>
+        toast({
+          title: "Error signing in",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{e}</code>
+            </pre>
+          ),
+        }),
+      );
   };
 
   const signOutUser = async () => {
-    console.log("signOutUser RENDER");
     await signOut(auth)
-      .then(() => resetState())
-      .catch((e) => console.log("Error signing out, ", e));
+      .then(() => {
+        resetState();
+
+        toast({
+          title: "Successfully signed out",
+        });
+      })
+      .catch((e) =>
+        toast({
+          title: "Error signing out",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{e}</code>
+            </pre>
+          ),
+        }),
+      );
   };
 
   const fetchTasks = () => {
-    console.log("fetchTasks RENDER");
-
     const q = query(collection(db, `users/${user?.uid}/tasks`));
     unsubscribeFetchTasks.current = onSnapshot(
       q,
@@ -65,14 +92,20 @@ export default function useFirebaseActions() {
         return;
       },
       (queryError) =>
-        console.log("Error fetching the tasks, ", queryError.name),
+        toast({
+          title: "Error fetching the tasks",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{queryError.name}</code>
+            </pre>
+          ),
+        }),
     );
   };
 
   const addNewTask = async (
     data: Omit<TaskForDB, "author" | "dateCreated" | "status">,
   ) => {
-    console.log("addNewTask RENDER");
     const { assignee, description, dueDate, priority } = data;
     const taskData: TaskForDB = {
       author: user?.displayName ?? "Unknown author",
@@ -84,23 +117,45 @@ export default function useFirebaseActions() {
       priority,
     };
 
-    await addDoc(collection(db, `users/${user?.uid}/tasks`), taskData).catch(
-      (e) => console.log("Error adding new task, ", e),
-    );
+    await addDoc(collection(db, `users/${user?.uid}/tasks`), taskData)
+      .then(() =>
+        toast({
+          title: "Successfully added the task",
+        }),
+      )
+      .catch((e) =>
+        toast({
+          title: "Error adding new task",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{e}</code>
+            </pre>
+          ),
+        }),
+      );
   };
 
   const editTask = (taskID: string, data: Partial<TaskForApp>) => {
-    console.log("editTask RENDER");
-
     const taskRef = doc(db, `users/${user?.uid}/tasks`, taskID);
-    setDoc(taskRef, { ...data }, { merge: true }).catch((e) =>
-      console.log("Error editing task, ", e),
-    );
+    setDoc(taskRef, { ...data }, { merge: true })
+      .then(() =>
+        toast({
+          title: "Successfully edited the task",
+        }),
+      )
+      .catch((e) =>
+        toast({
+          title: "Error editing task",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{e}</code>
+            </pre>
+          ),
+        }),
+      );
   };
 
   const switchTaskStatus = (newStatus: string, taskID: string) => {
-    console.log("switchTaskStatus RENDER");
-
     function setNewTaskStatus(): "To Do" | "In Progress" | "Completed" {
       if (newStatus === "toDoTable") return "To Do";
       else if (newStatus === "inProgressTable") return "In Progress";
@@ -108,16 +163,41 @@ export default function useFirebaseActions() {
     }
 
     const taskRef = doc(db, "users", user!.uid, "tasks", taskID);
-    setDoc(taskRef, { status: setNewTaskStatus() }, { merge: true }).catch(
-      (e) => console.log("Error switching task status, ", e),
-    );
+    setDoc(taskRef, { status: setNewTaskStatus() }, { merge: true })
+      .then(() =>
+        toast({
+          title: `Successfully switched the task to '${setNewTaskStatus()}' table`,
+        }),
+      )
+      .catch((e) =>
+        toast({
+          title: "Error switching task status",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{e}</code>
+            </pre>
+          ),
+        }),
+      );
   };
 
   const deleteTask = (taskID: string) => {
-    console.log("deleteTask RENDER");
-    deleteDoc(doc(db, "users", user!.uid, "tasks", taskID)).catch((e) =>
-      console.log("Error deleting task, ", e),
-    );
+    deleteDoc(doc(db, "users", user!.uid, "tasks", taskID))
+      .then(() =>
+        toast({
+          title: "Successfully deleted the task",
+        }),
+      )
+      .catch((e) =>
+        toast({
+          title: "Error deleting task",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{e}</code>
+            </pre>
+          ),
+        }),
+      );
   };
 
   return {

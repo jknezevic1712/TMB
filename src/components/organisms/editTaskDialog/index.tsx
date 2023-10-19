@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
-import { toast } from "@/lib/hooks/useToast";
 // utils
 import { taskPriorities } from "@/lib/assets";
 import { DialogFormSchema, assigneesMockData } from "@/lib/assets";

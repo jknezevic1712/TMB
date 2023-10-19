@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type * as z from "zod";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
-import { toast } from "@/lib/hooks/useToast";
 // utils
 import { taskPriorities } from "@/lib/assets";
 import { DialogFormSchema, assigneesMockData } from "@/lib/assets";
@@ -58,24 +57,15 @@ export default function AddNewTaskDialog(props: AddNewTaskDialogProps) {
     defaultValues,
   });
 
-  function onSubmit(formData: z.infer<typeof DialogFormSchema>) {
+  async function onSubmit(formData: z.infer<typeof DialogFormSchema>) {
     const { assignee, description, dueDate, priority } = formData;
 
-    addNewTask({
+    await addNewTask({
       assignee,
       description,
       dueDate: dueDate.getTime().toString(),
       priority: +priority,
-    }).catch((e) =>
-      toast({
-        title: "Error adding new task",
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{e}</code>
-          </pre>
-        ),
-      }),
-    );
+    });
   }
 
   useEffect(() => {
