@@ -1,4 +1,4 @@
-import { type DragEvent } from "react";
+import type { DragEvent } from "react";
 // hooks
 import useFirebaseActions from "@/lib/hooks/useFirebaseActions";
 // components
@@ -41,7 +41,7 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
 
   return (
     <div className="flex w-full flex-col gap-4 lg:flex-row">
-      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
+      <div className="flex min-h-[180px] w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
         <h2 className="w-full border-b-2 border-zinc-950 pb-2 text-xl capitalize italic">
           To Do
         </h2>
@@ -63,7 +63,7 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
         </div>
       </div>
 
-      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
+      <div className="flex min-h-[180px] w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
         <h2 className="w-full border-b-2 border-zinc-950 pb-2 text-xl capitalize italic">
           In Progress
         </h2>
@@ -85,7 +85,7 @@ export default function TasksTable({ tasks }: { tasks: TaskForApp[] | null }) {
         </div>
       </div>
 
-      <div className="flex w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
+      <div className="flex min-h-[180px] w-full flex-col rounded-sm bg-zinc-200 p-2 transition-all">
         <h2 className="w-full border-b-2 border-zinc-950 pb-2 text-xl capitalize italic">
           Completed
         </h2>
