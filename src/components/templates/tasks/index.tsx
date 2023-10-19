@@ -8,9 +8,12 @@ import { type TaskStateData, filterTasks } from "@/lib/utils";
 import AddNewDialog from "../../organisms/addNewTaskDialog";
 import TaskFilter from "@/components/organisms/taskFilter";
 
-const TasksTable = dynamic(() => import("@/components/organisms/tasksTable"), {
-  ssr: false,
-});
+const TasksOverview = dynamic(
+  () => import("@/components/organisms/tasksOverview"),
+  {
+    ssr: false,
+  },
+);
 
 export type ReducerActions =
   | { type: "DESCRIPTION"; payload: string }
@@ -62,7 +65,7 @@ export default function TasksTemplate() {
         />
       </div>
 
-      <TasksTable tasks={tasks} />
+      <TasksOverview tasks={tasks} />
     </div>
   );
 }
