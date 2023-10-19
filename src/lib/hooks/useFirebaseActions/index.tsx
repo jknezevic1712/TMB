@@ -91,15 +91,7 @@ export default function useFirebaseActions() {
 
         return;
       },
-      (queryError) =>
-        toast({
-          title: "Error fetching tasks",
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{queryError.message}</code>
-            </pre>
-          ),
-        }),
+      (queryError) => console.log("error fetching tasks, ", queryError),
     );
   };
 
