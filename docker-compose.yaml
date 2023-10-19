@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  app:
+    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyBvWzm7mvehn_pWZNfnP4Wj9UUJX9DhDtk"
+        NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "task-management-board-4ab08.firebaseapp.com"
+        NEXT_PUBLIC_FIREBASE_PROJECT_ID: "task-management-board-4ab08"
+        NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "task-management-board-4ab08.appspot.com"
+        NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "340064191559"
+        NEXT_PUBLIC_FIREBASE_APP_ID: "1:340064191559:web:46a76d7cda7bbfba235d62"
+        NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID: "G-K98R252KEE"
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    image: task-management-board-image
