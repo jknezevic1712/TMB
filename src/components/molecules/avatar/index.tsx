@@ -45,10 +45,10 @@ const AvatarFallback = React.forwardRef<
 ));
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName;
 
-export default function Avatar({ src }: { src: string }) {
+export default function Avatar({ src, alt }: { src: string; alt: string }) {
   return (
     <AvatarWrapper>
-      <AvatarImage src={src} />
+      <AvatarImage alt={alt} src={src} />
       <AvatarFallback>...</AvatarFallback>
     </AvatarWrapper>
   );

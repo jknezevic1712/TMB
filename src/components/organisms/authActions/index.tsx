@@ -16,7 +16,7 @@ export default function Auth() {
           Sign Out
         </Button>
 
-        <Avatar src={currentUser.photoURL!} />
+        <Avatar alt="user profile picture" src={currentUser.photoURL!} />
       </div>
     );
   }
